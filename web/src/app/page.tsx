@@ -4,6 +4,7 @@ import MovieGrid from "@/components/MovieGrid";
 import MovieCard from "@/components/MovieCard";
 import ScriptControls from "@/components/ScriptControls";
 import { supabase } from "@/lib/supabase";
+import { fetchPosterUrl } from "@/lib/tmdb";
 
 const POSTER_MAP: Record<string, string> = {
   "Aavesham": "https://images.unsplash.com/photo-1596727147705-61a532a659bd?q=80&w=400&auto=format&fit=crop",
@@ -49,12 +50,16 @@ export default async function Home() {
     });
   }
 
-  const movies = Array.from(movieMap.values()).map(m => ({
-    title: m.title,
-    posterUrl: m.posterUrl,
-    aiScore: m.totalScore / m.count,
-    source: m.source,
-    snippet: m.latestSnippet
+  const moviesRaw = Array.from(movieMap.values());
+  const movies = await Promise.all(moviesRaw.map(async m => {
+    const tmdbPoster = await fetchPosterUrl(m.title);
+    return {
+      title: m.title,
+      posterUrl: tmdbPoster || m.posterUrl,
+      aiScore: m.totalScore / m.count,
+      source: m.source,
+      snippet: m.latestSnippet
+    };
   }));
 
   const heroMovie = movies.length > 0 ? movies[0] : null;

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import ScoreBadge from './ScoreBadge';
 import SourceBadge from './SourceBadge';
 
@@ -16,10 +17,12 @@ export default function MovieCard({ title, posterUrl, aiScore, source, snippet }
       {/* Poster placeholder */}
       <div className="w-[35%] shrink-0 bg-neutral-800 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
-        <img 
+        <Image 
           src={posterUrl} 
           alt={title}
-          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+          fill
+          sizes="(max-width: 768px) 35vw, 20vw"
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
         />
       </div>
       

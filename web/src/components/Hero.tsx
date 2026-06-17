@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import ScoreBadge from './ScoreBadge';
 import SourceBadge from './SourceBadge';
 import type { MovieProps } from './MovieCard';
@@ -9,12 +10,14 @@ export default function Hero({ title, posterUrl, aiScore, source, snippet }: Mov
       <div className="flex flex-col md:flex-row">
         {/* Big Poster */}
         <div className="md:w-[40%] aspect-[2/3] md:aspect-auto bg-neutral-800 relative">
-          <img 
+          <Image 
             src={posterUrl} 
             alt={`${title} Poster`} 
-            className="w-full h-full object-cover"
+            fill
+            sizes="(max-width: 768px) 100vw, 40vw"
+            className="object-cover"
           />
-          <div className="absolute top-4 left-4 bg-primary text-white text-xs font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-md">
+          <div className="absolute top-4 left-4 bg-primary text-white text-xs font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-md z-10">
             Movie of the Week
           </div>
         </div>
