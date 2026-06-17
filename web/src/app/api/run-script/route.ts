@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     const { script } = await request.json();
 
     // Whitelist allowed scripts
-    const allowedScripts = ['analyzer.py', 'yt_collector.py', 'collector.py'];
+    const allowedScripts = ['analyzer.py', 'yt_collector.py', 'collector.py', 'master_pipeline.py'];
     if (!allowedScripts.includes(script)) {
       return NextResponse.json({ error: 'Invalid script name' }, { status: 400 });
     }

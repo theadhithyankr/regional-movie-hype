@@ -40,29 +40,16 @@ export default function ScriptControls() {
       
       <div className="flex flex-wrap gap-4">
         <button 
-          onClick={() => runScript('analyzer.py')}
+          onClick={() => runScript('master_pipeline.py')}
           disabled={running !== null}
-          className="flex items-center gap-2 bg-neutral-800 hover:bg-neutral-700 text-white font-medium py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
+          className="flex items-center gap-2 bg-primary hover:bg-[#D42A08] text-white font-bold py-3 px-6 rounded-lg transition-colors disabled:opacity-50 shadow-md"
         >
-          {running === 'analyzer.py' ? (
-            <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
+          {running === 'master_pipeline.py' ? (
+            <span className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
           ) : (
-            <Activity className="w-4 h-4 text-green-400" />
+            <Play className="w-5 h-5" />
           )}
-          Run Analyzer (Groq AI)
-        </button>
-
-        <button 
-          onClick={() => runScript('yt_collector.py')}
-          disabled={running !== null}
-          className="flex items-center gap-2 bg-neutral-800 hover:bg-neutral-700 text-white font-medium py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
-        >
-          {running === 'yt_collector.py' ? (
-            <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
-          ) : (
-            <Play className="w-4 h-4 text-red-500" />
-          )}
-          Run YouTube Collector
+          Run Autonomous Pipeline (TMDB -{'>'} YT -{'>'} Groq)
         </button>
 
         <button 
