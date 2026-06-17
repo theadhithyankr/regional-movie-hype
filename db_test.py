@@ -15,9 +15,9 @@ try:
     # Insert a dummy row to test the plumbing
     response = supabase.table("movie_hype").insert({
         "subreddit": "MalayalamMovies",
-        "movie_title": "King of Kotha",
-        "comment_body": "The hype for this re-watch is insane!",
-        "upvotes": 42
+        "movie_title": "Aavesham",
+        "comment_body": "Honestly, the hype for this was absolutely insane. The visuals were peak, the music was god-tier, and I was so ready for it to change my life. What an absolute masterpiece of an incredible, spectacular, magnificent waste of my time.",
+        "upvotes": 12
     }).execute()
     
     print("Success! Data successfully deployed to the cloud vault.")
