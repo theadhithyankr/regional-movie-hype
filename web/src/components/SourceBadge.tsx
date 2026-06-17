@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessageSquare, Youtube } from 'lucide-react';
+import { MessageSquare, MonitorPlay } from 'lucide-react';
 
 interface SourceBadgeProps {
   source: 'Reddit' | 'YouTube';
@@ -15,7 +15,7 @@ export default function SourceBadge({ source }: SourceBadgeProps) {
         : 'bg-[#FF0000]/10 text-[#FF0000] border-[#FF0000]/30'
       }
     `}>
-      {isReddit ? <MessageSquare className="w-3 h-3" /> : <Youtube className="w-3 h-3" />}
+      {isReddit ? <MessageSquare className="w-3 h-3" /> : <MonitorPlay className="w-3 h-3" />}
       {source}
     </div>
   );
