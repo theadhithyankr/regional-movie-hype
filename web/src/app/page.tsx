@@ -18,12 +18,21 @@ const DEFAULT_POSTER = "https://images.unsplash.com/photo-1485846234645-a62644f8
 
 export const dynamic = 'force-dynamic';
 
-export default async function Home() {
-  const { data: comments, error } = await supabase
+export default async function Home({ searchParams }: { searchParams: Promise<{ region?: string }> }) {
+  const resolvedParams = await searchParams;
+  const activeRegion = resolvedParams.region || 'All India';
+
+  let query = supabase
     .from('movie_hype')
     .select('*')
     .gt('hype_score', 0)
     .order('id', { ascending: false });
+
+  if (activeRegion !== 'All India') {
+    query = query.eq('region', activeRegion);
+  }
+
+  const { data: comments, error } = await query;
 
   if (error) {
     console.error("Error fetching data:", error);
@@ -38,6 +47,7 @@ export default async function Home() {
           title: c.movie_title,
           totalScore: 0,
           count: 0,
+          region: c.region || 'Mollywood',
           latestSnippet: c.comment_body,
           source: c.subreddit.toLowerCase() === 'youtube' ? 'YouTube' : 'Reddit',
           posterUrl: POSTER_MAP[c.movie_title] || DEFAULT_POSTER
@@ -57,6 +67,7 @@ export default async function Home() {
       title: m.title,
       posterUrl: tmdbPoster || m.posterUrl,
       aiScore: m.totalScore / m.count,
+      region: m.region,
       source: m.source,
       snippet: m.latestSnippet
     };
@@ -71,6 +82,22 @@ export default async function Home() {
       
       <div className="px-4 mt-8 max-w-6xl mx-auto">
         <ScriptControls />
+      </div>
+
+      <div className="px-4 max-w-6xl mx-auto mb-6 flex gap-4 overflow-x-auto pb-2 border-b border-card-border">
+        {['All India', 'Mollywood', 'Kollywood', 'Tollywood', 'Bollywood'].map(r => (
+          <a 
+            key={r}
+            href={`/?region=${r}`}
+            className={`whitespace-nowrap px-4 py-2 font-bold tracking-tight border-b-4 transition-colors ${
+              activeRegion === r 
+                ? 'border-primary text-white' 
+                : 'border-transparent text-foreground/50 hover:text-foreground hover:border-foreground/30'
+            }`}
+          >
+            {r}
+          </a>
+        ))}
       </div>
 
       <div className="px-4">

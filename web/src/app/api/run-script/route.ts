@@ -18,11 +18,22 @@ export async function POST(request: Request) {
     // Determine the root directory path (one level up from web/)
     const rootDir = path.resolve(process.cwd(), '../');
 
-    // For collector.py (which runs forever), we just spawn it and return immediately.
+    // For collector.py and master_pipeline.py (which runs a long time), we just spawn it and return immediately.
     // For others, we wait for completion.
-    if (script === 'collector.py') {
-      exec(`python ${script}`, { cwd: rootDir });
-      return NextResponse.json({ message: 'Reddit stream started in the background.' });
+    if (script === 'collector.py' || script === 'master_pipeline.py') {
+      const scriptPath = path.join(process.cwd(), '..', script);
+      const rootDir = path.join(process.cwd(), '..');
+
+      exec(`python "${scriptPath}"`, { cwd: rootDir }, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Error executing ${script}:`, error);
+          console.error(`Stderr:`, stderr);
+          return;
+        }
+        console.log(`${script} output:`, stdout);
+      });
+
+      return NextResponse.json({ success: true, message: `${script} started successfully in the background` });
     }
 
     // Execute the script and wait for it
