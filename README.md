@@ -74,16 +74,16 @@ Next.js Dashboard
 
 ```text
 regional-movie-hype/
-├── analyzer.py             # Scores ungraded comments with Groq
-├── collector.py            # Streams Reddit movie mentions into Supabase
-├── master_pipeline.py      # Runs discovery, YouTube collection, and scoring
-├── yt_collector.py         # YouTube-specific collection helper
-├── db_test.py              # Supabase connectivity check
-└── web/                    # Next.js dashboard
-    ├── src/app/            # App Router pages and API routes
-    ├── src/components/     # Header, hero, movie cards, badges, controls
-    ├── src/lib/            # Supabase and TMDB helpers
-    └── package.json        # Web scripts and dependencies
+|-- analyzer.py             # Scores ungraded comments with Groq
+|-- collector.py            # Streams Reddit movie mentions into Supabase
+|-- master_pipeline.py      # Runs discovery, YouTube collection, and scoring
+|-- yt_collector.py         # YouTube-specific collection helper
+|-- db_test.py              # Supabase connectivity check
+`-- web/                    # Next.js dashboard
+    |-- src/app/            # App Router pages and API routes
+    |-- src/components/     # Header, hero, movie cards, badges, controls
+    |-- src/lib/            # Supabase and TMDB helpers
+    `-- package.json        # Web scripts and dependencies
 ```
 
 ---
@@ -121,7 +121,14 @@ REDDIT_CLIENT_SECRET=your_reddit_client_secret
 REDDIT_USER_AGENT=your_reddit_user_agent
 ```
 
-For the web dashboard, create `web/.env.local` with the public Supabase values expected by `web/src/lib/supabase.ts`.
+For the web dashboard, create `web/.env.local`:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+The dashboard also falls back to `SUPABASE_URL` and `SUPABASE_KEY` if the public names are not set.
 
 ### 3. Install Python Dependencies
 
